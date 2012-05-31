@@ -23,16 +23,22 @@ if(canvas_frame){
         },
         loopThroughElements = function(htmlArray) {
             var len = htmlArray.length,
+                cache_time = 30 * 60, // 30 minutes
                 playSound = false;
 
             for (var i = 0; i < len; i++) {
                 var device_name = getDeviceName(htmlArray[i]);
-                var count = (cache[device_name] == undefined) ? 0 : cache[device_name];
-                if ( count < 5 ) {
-                    count++;
-                    cache[device_name] = count;
+                if (cache[device_name] == undefined) {
+                    cache[device_name] = {last_time:0, count:0};
+                }
+                var current_time = Math.floor(new Date().getTime()/1000);
+                if ( current_time - cache[device_name].last_time >= cache_time) {
+                    cache[device_name].count = 0;
+                }
+                if (cache[device_name].count < 5  ) {
+                    cache[device_name].count++;
+                    cache[device_name].last_time = current_time;
                     playSound = true;
-
                 }
             }
             return playSound;
