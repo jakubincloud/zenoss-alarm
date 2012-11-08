@@ -7,7 +7,7 @@
 // ==/UserScript==
 
 
-var ausrc = 'https://github.com/jakubincloud/zenoss-alarm/raw/master/sound/zenoss-alarm.wav';
+var ausrc = 'https://github.com/jakubincloud/zenoss-alarm/raw/master/sound/sonar.wav';
 var au = document.createElement('audio');
 au.setAttribute('src', ausrc);
 au.setAttribute('id', 'GMwavaudio');
@@ -19,7 +19,7 @@ if(canvas_frame){
     var doc, interval_1, interval_2, cache = Array(),
         getDeviceName = function(htmlObject) {
             a = htmlObject.parentElement.parentElement.parentElement.children[2].getElementsByTagName('a')[0];
-            return a.innerText;
+            return a ? a.innerText : 'unknown-device';
         },
         loopThroughElements = function(htmlArray) {
             var len = htmlArray.length,
